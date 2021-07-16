@@ -1,4 +1,5 @@
 import csv
+import Messages
 class Player:
     # 初始化玩家，每人發 20000 遊戲幣以及出發位置為 0
     def __init__(self,money = 20000, po = 0):
@@ -20,13 +21,20 @@ class Player:
         
     # 修改玩家遊戲幣
     def setMoney(self,money,id):
+        news = Messages.Messages()
         self.__money += money
         table = [['id','name','money','po','status']]
         with open('players.csv','r',newline='') as csvfile:
             rows = csv.DictReader(csvfile)
             for row in rows:
                 if (row.get('id') == str(id)):
-                    row['money'] = str(int(row['money'])+money)
+                    newmoney = int(row['money'])+money
+                    if (newmoney < 0):
+                        news.inputData("玩家破產，出局了！")
+                        row['status'] = '-1'
+                        self.__status = -1
+                        newmoney = 0000
+                    row['money'] = str(newmoney)
                 table.append([row['id'],row['name'],row['money'],row['po'],row['status']])
         with open('players.csv','w',newline='') as csvfile:
             writer = csv.writer(csvfile)
@@ -44,6 +52,14 @@ class Player:
     def getPo(self):
         return self.__po
 
+    # 取得玩家狀態
+    def getStatus(self):
+        return self.__status
+
+    # 設定玩家狀態
+    def setStatus(self,status):
+        self.__status = self.__status + status
+
 if __name__ == "__main__":
     myplayer = Player()
-    myplayer.setMoney(1000,0)
+    myplayer.getStatus()

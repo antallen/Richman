@@ -88,19 +88,22 @@ class playMap:
             print()
 
     def printmap2(self,k,min,max,userPo):
-        for i in (min,max):
-                if (self.myStores.getStoreData(str(i))[2] == "-1"):
-                    owner = "　"
-                else:
-                    owner = self.transferNo(self.myStores.getStoreData(str(i))[2])
         if (( k == 5) or ( k == 9) or( k == 13) or( k == 17) or( k == 21)):
             lines = ""
+            if (self.myStores.getStoreData(str(min))[2] == "-1"):
+                owner = "　"
+            else:
+                owner = self.transferNo(self.myStores.getStoreData(str(min))[2])
             lines = lines + self.__mapEmpty + self.getStoreName(self.myStores.getStoreData(str(min))[1]) + owner + self.__mapWall
             if (( k == 9) or ( k == 13)):
               messages = self.getUserData(k)
               lines = lines + 6*self.__mapEmpty + messages + 6*self.__mapEmpty
             else:
               lines = lines + 34*self.__mapEmpty
+            if (self.myStores.getStoreData(str(max))[2] == "-1"):
+                    owner = "　"
+            else:
+                owner = self.transferNo(self.myStores.getStoreData(str(max))[2])
             lines = lines + self.__mapWall + self.__mapEmpty + self.getStoreName(self.myStores.getStoreData(str(max))[1]) + owner
             print(lines)
 
